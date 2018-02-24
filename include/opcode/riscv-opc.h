@@ -651,6 +651,62 @@
 #define CSR_DCSR 0x7b0
 #define CSR_DPC 0x7b1
 #define CSR_DSCRATCH 0x7b2
+// <SANCTUM>
+  // ## The addresses of various CSRs (registers) introduced by Sanctum are given here.
+
+  // ### Enclave virtual base and mask
+  // (per-core) registers
+  // ( defines a virtual region for which enclave page tables are used in
+  //   place of OS-controlled page tables)
+  // (machine-mode non-standard read/write)
+  #define CSR_MEVBASE 0x7c0
+  #define CSR_MEVMASK 0x7c1
+
+  // ### Enclave page table base
+  // (per core) register
+  // ( pointer to a separate page table data structure used to translate enclave
+  //   virtual addresses)
+  // (machine-mode non-standard read/write)
+  #define CSR_MEPTBR 0x7c2
+
+  // ### DRAM bitmap
+  // (per core) registers (OS and Enclave)
+  // ( white-lists the DRAM regions the core is allowed to access via OS and
+  //   enclave virtual addresses)
+  // (machine-mode non-standard read/write)
+  #define CSR_MDRBMAP 0x7c3
+  #define CSR_MEDRBMAP 0x7c4
+
+  // ### Protected region base and mask
+  // (per core) registers (OS and Enclave)
+  // ( these are used to prevent address translation into a specific range of
+  //   physical addresses, for example to protect the security monitor from all software)
+  // (machine-mode non-standard read/write)
+  #define CSR_MPARBASE 0x7c5
+  #define CSR_MPARMASK 0x7c6
+  #define CSR_MEPARBASE 0x7c7
+  #define CSR_MEPARMASK 0x7c8
+
+  // ### DMA base and mask:
+  // (system-wide) register
+  // (machine-mode non-standard read/write)
+  #define CSR_MDMABASE 0x7c9
+  #define CSR_MDMAMASK 0x7ca
+  // ### TRNG (random number generator)
+  // (user-mode non-standard read-only)
+  // (per core) register
+  #define CSR_TRNG 0xcc0
+  // ### PUF (physical unclonable function)
+  // (system-wide) registers
+  // (machine-mode non-standard read/write)
+  #define CSR_MPUFSELECT 0x7cb
+  #define CSR_MPUFDISABLE 0x7cc
+  #define CSR_MPUFRESET 0x7cd
+  #define CSR_MPUFCYCLES 0x7ce
+  // (machine-mode non-standard read-only)
+  #define CSR_MPUFREADOUT 0xfc0
+  // Check priv-1.10 spec to make sure we can't use memory protection for some of this
+// </SANCTUM>
 #define CSR_MCYCLE 0xb00
 #define CSR_MINSTRET 0xb02
 #define CSR_MHPMCOUNTER3 0xb03
@@ -1163,6 +1219,25 @@ DECLARE_CSR(tdata3, CSR_TDATA3)
 DECLARE_CSR(dcsr, CSR_DCSR)
 DECLARE_CSR(dpc, CSR_DPC)
 DECLARE_CSR(dscratch, CSR_DSCRATCH)
+// <SANCTUM>
+  DECLARE_CSR(mevbase, CSR_MEVBASE)
+  DECLARE_CSR(mevmask, CSR_MEVMASK)
+  DECLARE_CSR(meptbr, CSR_MEPTBR)
+  DECLARE_CSR(mdrbmap, CSR_MDRBMAP)
+  DECLARE_CSR(medrbmap, CSR_MEDRBMAP)
+  DECLARE_CSR(mparbase, CSR_MPARBASE)
+  DECLARE_CSR(mparmask, CSR_MPARMASK)
+  DECLARE_CSR(meparbase, CSR_MEPARBASE)
+  DECLARE_CSR(meparmask, CSR_MEPARMASK)
+  DECLARE_CSR(mdmabase, CSR_MDMABASE)
+  DECLARE_CSR(mdmamask, CSR_MDMAMASK)
+  DECLARE_CSR(trng, CSR_TRNG)
+  DECLARE_CSR(mpufselect, CSR_MPUFSELECT)
+  DECLARE_CSR(mpufdisable, CSR_MPUFDISABLE)
+  DECLARE_CSR(mpufreset, CSR_MPUFRESET)
+  DECLARE_CSR(mpufcycles, CSR_MPUFCYCLES)
+  DECLARE_CSR(mpufreadout, CSR_MPUFREADOUT)
+// </SANCTUM>
 DECLARE_CSR(mcycle, CSR_MCYCLE)
 DECLARE_CSR(minstret, CSR_MINSTRET)
 DECLARE_CSR(mhpmcounter3, CSR_MHPMCOUNTER3)
